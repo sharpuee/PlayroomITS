@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useStore, uid } from '../store';
 import type { BottleFamily, BottleSpec, Component, MarketId, Resin } from '../domain/types';
-import { Field, Seg, toast } from '../ui/kit';
+import { Field, PhotoField, Seg, toast } from '../ui/kit';
 
 type Kind = 'all' | 'bottle' | 'closure' | 'decoration';
 
@@ -65,7 +65,12 @@ export default function Library() {
             <tbody>
               {rows.map((c) => (
                 <tr key={c.id} className={c.id === sel ? 'sel' : ''} onClick={() => { setSel(c.id); setCreating(false); }} style={{ cursor: 'pointer' }}>
-                  <td><b style={{ fontWeight: 500 }}>{c.name}</b></td>
+                  <td>
+                    <div className="row" style={{ flexWrap: 'nowrap' }}>
+                      {c.photo && <img src={c.photo} alt="" style={{ width: 32, height: 32, objectFit: 'cover', borderRadius: 4, border: '1px solid var(--rule)' }} />}
+                      <b style={{ fontWeight: 500 }}>{c.name}</b>
+                    </div>
+                  </td>
                   <td><span className={`tag ${c.scope}`}>{c.scope}</span> <span className="small muted">{c.markets.filter((m) => m !== 'global').join(' ')}</span></td>
                   <td className="small muted">{spec(c)}</td>
                   <td className="r num">{c.kind === 'decoration' ? `$${c.costPer1000Cm2.toFixed(3)}/1000 cm²` : `$${c.unitCostUsd.toFixed(3)}`}</td>
@@ -97,6 +102,7 @@ function Editor({ c, marketIds, onSave, onDelete }: { c: Component; marketIds: M
     <aside className="panel panel-pad stack" aria-label="Edit part">
       <h2 style={{ margin: 0 }}>{c.name}</h2>
       {c.notes && <p className="small muted">{c.notes}</p>}
+      <PhotoField label="Part photo" value={d.photo} onChange={(v) => setD({ ...d, photo: v })} hint="Your own supplier or pack photo; kept in this browser only." />
       <Field label="Name"><input type="text" value={d.name} onChange={(e) => setD({ ...d, name: e.target.value })} /></Field>
       <div className="grid2" style={{ gap: 8 }}>
         <Field label="Menu">

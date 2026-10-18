@@ -29,11 +29,11 @@ export const MARKETS: Market[] = [
   },
 ];
 
-// Fictional demo brands — rename them and set your own colours in Settings.
+// Starting brands. Colours are approximate planning values: replace them with the official brand tokens in Settings.
 export const BRANDS: Brand[] = [
-  { id: 'lumora', name: 'Lumora', tier: 'premium', palette: ['#2B2350', '#C9A86A', '#F3EEE6'], lockedFamilies: ['oval', 'flask'], logoText: 'LUMORA' },
-  { id: 'freshroot', name: 'Fresh Root', tier: 'mainstream', palette: ['#0F6FB8', '#FFFFFF', '#7BC6EE'], lockedFamilies: ['oval', 'cylinder'], logoText: 'fresh root' },
-  { id: 'kesha', name: 'Kesha', tier: 'value', palette: ['#1E7B4E', '#F6C945', '#FFFFFF'], lockedFamilies: ['oval'], logoText: 'Kesha' },
+  { id: 'hs', name: 'Head & Shoulders', tier: 'mainstream', palette: ['#0B4EA2', '#FFFFFF', '#00A3E0', '#1B9E5A'], lockedFamilies: ['oval', 'cylinder'], logoText: 'Head & Shoulders' },
+  { id: 'pantene', name: 'Pantene', tier: 'mainstream', palette: ['#B08D57', '#FFFFFF', '#2B2118', '#E9DCC6'], lockedFamilies: ['oval', 'flask', 'tottle'], logoText: 'PANTENE' },
+  { id: 'herbal', name: 'Herbal Essences', tier: 'mainstream', palette: ['#6E3A8E', '#FFFFFF', '#2E9C8F', '#E8C547'], lockedFamilies: ['flask', 'oval'], logoText: 'herbal essences' },
 ];
 
 export function marketById(id: string): Market {

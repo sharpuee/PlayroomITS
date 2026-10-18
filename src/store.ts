@@ -12,31 +12,38 @@ export const uid = (p = 'id') => `${p}-${Math.random().toString(36).slice(2, 8)}
 
 export const SEED_DESIGNS: PackDesign[] = [
   {
-    id: 'pd-fr-ad', name: 'Fresh Root Anti-dandruff 400 ml', brandId: 'freshroot', rangeName: 'Anti-dandruff', market: 'global',
-    bottleId: 'b-oval-400', closureId: 'c-flip-24', decorationId: 'd-ps-pe', bottleColor: '#0F6FB8', capColor: '#FFFFFF', liquidColor: '#BFE3F7',
+    id: 'pd-hs-classic', name: 'Head & Shoulders Classic Clean 400 ml', brandId: 'hs', rangeName: 'Anti-dandruff core', market: 'global',
+    bottleId: 'b-oval-400', closureId: 'c-flip-24', decorationId: 'd-ps-pe', bottleColor: '#0B4EA2', capColor: '#FFFFFF', liquidColor: '#BFE3F7',
     finish: 'gloss', capFinish: 'gloss', shape: {}, pcrPct: 25, stage: 'Feasibility', lineId: 'L1', annualVolumeM: 18,
-    label: { brandText: 'fresh root', variantText: 'Anti-dandruff Classic Clean', claimText: 'Up to 100% flake-free', bg: '#FFFFFF', ink: '#0F3E66', accent: '#0F6FB8', heightPct: 0.55, offsetPct: 0.48, wrap: 'front-back', layout: 'stacked' },
+    label: { brandText: 'Head & Shoulders', variantText: 'Classic Clean', claimText: 'Anti-dandruff shampoo', bg: '#FFFFFF', ink: '#0B3D7A', accent: '#0B4EA2', heightPct: 0.55, offsetPct: 0.48, wrap: 'front-back', layout: 'stacked' },
     createdAt: now - 864e5 * 20, updatedAt: now - 864e5 * 2, qualification: { proto: true, mould: true }, gateNotes: [],
   },
   {
-    id: 'pd-fr-cool', name: 'Fresh Root Cool Menthol 400 ml', brandId: 'freshroot', rangeName: 'Anti-dandruff', market: 'IN',
-    bottleId: 'b-oval-400', closureId: 'c-flip-24', decorationId: 'd-ps-pe', bottleColor: '#0F6FB8', capColor: '#FFFFFF', liquidColor: '#BFF7E8',
+    id: 'pd-hs-menthol', name: 'Head & Shoulders Cool Menthol 400 ml', brandId: 'hs', rangeName: 'Anti-dandruff core', market: 'IN',
+    bottleId: 'b-oval-400', closureId: 'c-flip-24', decorationId: 'd-ps-pe', bottleColor: '#0B4EA2', capColor: '#FFFFFF', liquidColor: '#BFF7E8',
     finish: 'gloss', capFinish: 'gloss', shape: {}, pcrPct: 15, stage: 'Concept', lineId: 'L1', annualVolumeM: 9,
-    label: { brandText: 'fresh root', variantText: 'Cool Menthol', claimText: 'Icy fresh scalp, flake-free', bg: '#FFFFFF', ink: '#0F3E66', accent: '#19B39B', heightPct: 0.55, offsetPct: 0.48, wrap: 'front-back', layout: 'stacked' },
+    label: { brandText: 'Head & Shoulders', variantText: 'Cool Menthol', claimText: 'Anti-dandruff, icy fresh scalp', bg: '#FFFFFF', ink: '#0B3D7A', accent: '#1B9E5A', heightPct: 0.55, offsetPct: 0.48, wrap: 'front-back', layout: 'stacked' },
     createdAt: now - 864e5 * 12, updatedAt: now - 864e5 * 3, qualification: {}, gateNotes: [],
   },
   {
-    id: 'pd-lu-repair', name: 'Lumora Bond Repair Conditioner 650 ml', brandId: 'lumora', rangeName: 'Bond Repair', market: 'US',
-    bottleId: 'b-oval-650', closureId: 'c-pump-28', decorationId: 'd-ps-bopp-foil', bottleColor: '#2B2350', capColor: '#C9A86A', liquidColor: '#F1E6D2',
+    id: 'pd-pa-repair', name: 'Pantene Repair & Protect Conditioner 650 ml', brandId: 'pantene', rangeName: 'Repair & Protect', market: 'US',
+    bottleId: 'b-oval-650', closureId: 'c-pump-28', decorationId: 'd-ps-bopp-foil', bottleColor: '#FFFFFF', capColor: '#B08D57', liquidColor: '#F1E6D2',
     finish: 'pearl', capFinish: 'metallic', shape: { waist: 0.06 }, pcrPct: 0, stage: 'Concept', lineId: 'L2', annualVolumeM: 4,
-    label: { brandText: 'LUMORA', variantText: 'Bond Repair Conditioner', claimText: 'Repairs broken bonds in 1 wash, salon-grade, with keratin and argan', bg: '#2B2350', ink: '#C9A86A', accent: '#C9A86A', heightPct: 0.42, offsetPct: 0.5, wrap: 'front-back', layout: 'minimal' },
+    label: { brandText: 'PANTENE', variantText: 'Repair & Protect Conditioner', claimText: 'Strengthens damaged hair, nourishes with pro-vitamins and antioxidants for shine', bg: '#FFFFFF', ink: '#2B2118', accent: '#B08D57', heightPct: 0.42, offsetPct: 0.5, wrap: 'front-back', layout: 'minimal' },
     createdAt: now - 864e5 * 8, updatedAt: now - 864e5 * 1, qualification: {}, gateNotes: [],
   },
   {
-    id: 'pd-ke-herbal', name: 'Kesha Herbal Shine 180 ml', brandId: 'kesha', rangeName: 'Herbal', market: 'IN',
-    bottleId: 'b-oval-180', closureId: 'c-in-flip-24', decorationId: 'd-in-paper', bottleColor: '#1E7B4E', capColor: '#F6C945', liquidColor: '#CDE8B5',
+    id: 'pd-he-argan', name: 'Herbal Essences Argan Oil Shampoo 300 ml', brandId: 'herbal', rangeName: 'Botanicals', market: 'EU',
+    bottleId: 'b-pet-flask-300', closureId: 'c-flip-24', decorationId: 'd-ps-pe', bottleColor: '#FFFFFF', capColor: '#6E3A8E', liquidColor: '#E8B35A',
+    finish: 'clear', capFinish: 'gloss', shape: {}, pcrPct: 25, stage: 'Idea', lineId: 'L1', annualVolumeM: 6,
+    label: { brandText: 'herbal essences', variantText: 'Argan Oil Repair', claimText: 'Plant-based ingredients', bg: '#FFFFFF', ink: '#3B2350', accent: '#6E3A8E', heightPct: 0.5, offsetPct: 0.5, wrap: 'front-back', layout: 'minimal' },
+    createdAt: now - 864e5 * 4, updatedAt: now - 864e5 * 1, qualification: {}, gateNotes: [],
+  },
+  {
+    id: 'pd-hs-in180', name: 'Head & Shoulders Smooth & Silky 180 ml', brandId: 'hs', rangeName: 'Anti-dandruff India', market: 'IN',
+    bottleId: 'b-oval-180', closureId: 'c-in-flip-24', decorationId: 'd-in-paper', bottleColor: '#0B4EA2', capColor: '#FFFFFF', liquidColor: '#CDE8F5',
     finish: 'gloss', capFinish: 'gloss', shape: {}, pcrPct: 0, stage: 'Idea', lineId: 'L1', annualVolumeM: 30,
-    label: { brandText: 'Kesha', variantText: 'Herbal Shine', claimText: 'Amla + reetha', bg: '#F6C945', ink: '#1E7B4E', accent: '#1E7B4E', heightPct: 0.5, offsetPct: 0.48, wrap: 'wrap', layout: 'band' },
+    label: { brandText: 'Head & Shoulders', variantText: 'Smooth & Silky', claimText: 'Anti-dandruff', bg: '#FFFFFF', ink: '#0B3D7A', accent: '#C2187A', heightPct: 0.5, offsetPct: 0.48, wrap: 'wrap', layout: 'band' },
     createdAt: now - 864e5 * 4, updatedAt: now - 864e5 * 1, qualification: {}, gateNotes: [],
   },
 ];
@@ -136,7 +143,7 @@ export const useStore = create<State>()(
       },
       reset: () => set(initial()),
     }),
-    { name: 'pack-playroom-v1', version: 1 },
+    { name: 'pack-playroom-v1', version: 2, migrate: () => initial() as unknown as State },
   ),
 );
 

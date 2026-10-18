@@ -7,9 +7,9 @@
   --surface-2: #f5f7f9;
   --rule: #cdd7de;
   --rule-2: #e1e7eb;
-  --accent: #5a3fd6;
+  --accent: #003da5;
   --accent-ink: #ffffff;
-  --accent-weak: #ece8fd;
+  --accent-weak: #e3ecfa;
   --green: #1f8a5b;
   --green-weak: #e2f3ea;
   --amber: #b87207;
@@ -55,7 +55,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   overflow-y: auto;
 }
 .brandmark { display: flex; align-items: center; gap: 10px; padding: 2px 8px 6px; color: #fff; text-decoration: none; }
-.brandmark b { font-family: var(--head); font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+.brandmark b { font-family: var(--head); font-size: 18px; font-weight: 600; letter-spacing: -0.01em; display: block; line-height: 1.1; }
+.brandmark small { display: block; font-size: 12px; color: #9fb3d6; font-weight: 500; }
 .rail-group { display: flex; flex-direction: column; gap: 2px; }
 .rail-group > span { font-size: 12px; color: #8d9ab0; padding: 0 10px 4px; }
 .rail a.nav {
@@ -98,7 +99,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .btn:hover { border-color: var(--ink-3); }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.btn.primary:hover { background: #4a31c2; }
+.btn.primary:hover { background: #00307f; }
 .btn.ghost { border-color: transparent; background: transparent; }
 .btn.small { padding: 4px 8px; font-size: 12px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }

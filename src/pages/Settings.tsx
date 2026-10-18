@@ -43,7 +43,7 @@ export default function Settings() {
 
       <section className="panel panel-pad stack">
         <h2 style={{ margin: 0 }}>Brands and locked codes</h2>
-        <p className="small muted">The Coach checks every design against these. Demo brands are fictional; rename them to yours.</p>
+        <p className="small muted">The Coach checks every design against these. Colours are approximate starting values; replace them with the official brand tokens.</p>
         <div className="grid3">
           {s.brands.map((b) => <BrandEditor key={b.id} b={b} onChange={s.updateBrand} />)}
         </div>

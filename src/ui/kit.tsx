@@ -124,3 +124,49 @@ export const Icon = {
   gates: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M4 6h16M4 12h16M4 18h16" /><circle cx="8" cy="6" r="1.8" fill="currentColor" /><circle cx="14" cy="12" r="1.8" fill="currentColor" /><circle cx="18" cy="18" r="1.8" fill="currentColor" /></svg>,
   settings: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" /></svg>,
 };
+
+/** Reads an image file, scales it down and returns a JPEG data URL small enough for browser storage. */
+export function readImage(file: File, maxPx = 720): Promise<string> {
+  return new Promise((resolve, reject) => {
+    if (!file.type.startsWith('image/')) return reject(new Error('Choose an image file (JPG, PNG or WebP).'));
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, maxPx / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * k);
+      c.height = Math.round(img.height * k);
+      const ctx = c.getContext('2d');
+      if (!ctx) return reject(new Error('Could not read the image.'));
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = () => reject(new Error('Could not read the image.'));
+    img.src = url;
+  });
+}
+
+export function PhotoField({ label, value, onChange, hint }: { label: string; value?: string; onChange: (v: string | undefined) => void; hint?: string }) {
+  return (
+    <div className="field">
+      <span>{label}</span>
+      {value && <img src={value} alt={label} style={{ maxWidth: '100%', maxHeight: 180, objectFit: 'contain', borderRadius: 6, border: '1px solid var(--rule)', background: '#fff' }} />}
+      <div className="row">
+        <label className="btn small" style={{ cursor: 'pointer' }}>
+          {value ? 'Replace photo' : 'Upload photo'}
+          <input type="file" accept="image/*" hidden onChange={async (e) => {
+            const f = e.target.files?.[0];
+            e.target.value = '';
+            if (!f) return;
+            try { onChange(await readImage(f)); toast('Photo added'); } catch (err) { toast((err as Error).message); }
+          }} />
+        </label>
+        {value && <button className="btn small ghost" type="button" onClick={() => onChange(undefined)}>Remove</button>}
+      </div>
+      {hint && !value && <small className="muted" style={{ fontSize: 11 }}>{hint}</small>}
+    </div>
+  );
+}

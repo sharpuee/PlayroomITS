@@ -8,7 +8,7 @@ import { onMenu, menuReason } from '../domain/menus';
 import type { BottleSpec, ClosureSpec, DecorationSpec, Finish, LabelArt, PackDesign } from '../domain/types';
 import { PackModel, visualFromPack, packTotalHeight } from '../three/PackModel';
 import { Studio, type SnapshotFn } from '../three/Studio';
-import { ColorField, Field, ScoreRing, Seg, Slider, VerdictBadge, toast } from '../ui/kit';
+import { ColorField, Field, PhotoField, ScoreRing, Seg, Slider, VerdictBadge, toast } from '../ui/kit';
 import { LENSES } from '../domain/coach';
 
 const FINISHES_OPAQUE: Finish[] = ['gloss', 'matte', 'soft-touch', 'pearl', 'metallic'];
@@ -31,6 +31,7 @@ export default function Playroom() {
   const [spin, setSpin] = useState(false);
   const [compare, setCompare] = useState(false);
   const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [showRef, setShowRef] = useState(true);
   const snap = useRef<SnapshotFn | null>(null);
   const exportGroup = useRef<THREE.Group>(null);
 
@@ -116,6 +117,13 @@ export default function Playroom() {
             <input type="text" value={design.rangeName} onChange={(e) => set({ rangeName: e.target.value })} />
           </Field>
         </div>
+
+        <details className="sect" open={!design.referenceImage}>
+          <summary>Reference photo</summary>
+          <div>
+            <PhotoField label="Photo of the pack on market today" value={design.referenceImage} onChange={(v) => set({ referenceImage: v })} hint="Use your own approved pack shots. The photo is kept in this browser only and shown next to the 3D model." />
+          </div>
+        </details>
 
         <details className="sect" open>
           <summary>Bottle</summary>
@@ -271,12 +279,21 @@ export default function Playroom() {
             )}
             <button className="btn small" type="button" aria-pressed={spin} onClick={() => setSpin((s) => !s)}>{spin ? 'Stop turntable' : 'Turntable'}</button>
             <button className="btn small" type="button" aria-pressed={compare} onClick={() => setCompare((c) => !c)}>{compare ? 'Single view' : 'Range view'}</button>
+            {design.referenceImage && !compare && (
+              <button className="btn small" type="button" aria-pressed={showRef} onClick={() => setShowRef((s) => !s)}>{showRef ? 'Hide reference' : 'Show reference'}</button>
+            )}
           </div>
           <div className="row">
             <button className="btn small" type="button" onClick={() => { const img = snap.current?.(1200); if (img) { const a = document.createElement('a'); a.href = img; a.download = `${design.name}.jpg`; a.click(); } }}>Save image</button>
             <button className="btn small" type="button" onClick={exportGlb}>Download 3D (.glb)</button>
           </div>
         </div>
+        {design.referenceImage && showRef && !compare && (
+          <figure className="panel" style={{ position: 'absolute', right: 12, top: 52, width: '30%', maxWidth: 220, margin: 0, padding: 8 }}>
+            <img src={design.referenceImage} alt="Pack on market today" style={{ width: '100%', display: 'block', borderRadius: 6 }} />
+            <figcaption className="small muted" style={{ marginTop: 4 }}>On market today</figcaption>
+          </figure>
+        )}
         {compare && (
           <div className="panel panel-pad small" style={{ position: 'absolute', left: 12, top: 52, width: 230, maxHeight: '60%', overflow: 'auto' }}>
             <b>Show in range view</b>

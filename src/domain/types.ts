@@ -24,6 +24,7 @@ interface ComponentBase {
   toolingUsd: number; // one-off cost if the part is new to you
   owned: boolean; // tooling already exists
   notes?: string;
+  photo?: string; // user-uploaded reference photo (data URL, stays in the browser)
 }
 
 export interface BottleSpec extends ComponentBase {
@@ -121,6 +122,7 @@ export interface PackDesign {
   lineId?: string;
   annualVolumeM: number; // millions of units per year
   thumbnail?: string; // data URL
+  referenceImage?: string; // user-uploaded photo of the current pack (data URL)
   parentId?: string; // branch origin
   createdAt: number;
   updatedAt: number;

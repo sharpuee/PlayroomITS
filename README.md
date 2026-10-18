@@ -1,4 +1,6 @@
-# Pack Playroom
+# Pack Playroom · P&G Hair Care
+
+Internal prototype for Head & Shoulders, Pantene and Herbal Essences packaging. Not an official P&G website.
 
 A unified packaging platform for shampoo and conditioner: design a pack in 3D, score it, put it on a retail shelf, then backtrack to how your plants would make it.
 
@@ -48,7 +50,7 @@ Requires Node 20 or newer.
 
 ## Make it yours
 
-All demo data is fictional and lives in `src/data/`:
+Brand names are the three starting brands; brand colours are approximate. Costs, lines, suppliers and the shelf competitor set are demo values. All of it lives in `src/data/`:
 
 - `components.ts` – your bottles, closures, decorations, suppliers and costs
 - `lines.ts` – your plants, lines, machines, envelopes, change-part formats and running SKUs
@@ -56,6 +58,10 @@ All demo data is fictional and lives in `src/data/`:
 - `retail.ts` – retail formats and the competitor set used on shelf
 
 You can also edit most of this in the app and use **Settings → Export all data** to share a dataset with your team.
+
+## Pack photos
+
+Upload your own approved pack shots in the Playroom (Reference photo) and in the Component library (Part photo). Photos are resized and stored in your browser only; they are not committed to this repository or published with the site. Export data from Settings to share them with a colleague.
 
 ## How the numbers are made (and their limits)
 

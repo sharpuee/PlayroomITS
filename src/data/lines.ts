@@ -5,9 +5,9 @@ export const LINES: ProductionLine[] = [
   {
     id: 'L1', plant: 'Plant A', name: 'Line 1 · High-speed oval', targetBpm: 220, oeePct: 74, changeoverMin: 45,
     skus: [
-      { name: 'Fresh Root Shampoo 400 ml', bottleId: 'b-oval-400', closureId: 'c-flip-24', bpm: 220 },
-      { name: 'Fresh Root Shampoo 650 ml', bottleId: 'b-oval-650', closureId: 'c-flip-28', bpm: 190 },
-      { name: 'Kesha Shampoo 180 ml', bottleId: 'b-oval-180', closureId: 'c-flip-24', bpm: 240 },
+      { name: 'Head & Shoulders Classic Clean 400 ml', bottleId: 'b-oval-400', closureId: 'c-flip-24', bpm: 220 },
+      { name: 'Head & Shoulders Classic Clean 650 ml', bottleId: 'b-oval-650', closureId: 'c-flip-28', bpm: 190 },
+      { name: 'Head & Shoulders Cool Menthol 180 ml', bottleId: 'b-oval-180', closureId: 'c-flip-24', bpm: 240 },
     ],
     machines: [
       { id: 'L1-UNS', type: 'unscrambler', name: 'Rotary unscrambler', maxBpm: 260, heightMm: [110, 260], widthMm: [40, 95], depthMm: [25, 65], formats: ['oval-72x46', 'oval-84x54', 'oval-58x36'] },
@@ -24,8 +24,8 @@ export const LINES: ProductionLine[] = [
   {
     id: 'L2', plant: 'Plant A', name: 'Line 2 · Pump and premium', targetBpm: 120, oeePct: 68, changeoverMin: 60,
     skus: [
-      { name: 'Lumora Conditioner 650 ml pump', bottleId: 'b-oval-650', closureId: 'c-pump-28', bpm: 110 },
-      { name: 'Lumora Shampoo 340 ml', bottleId: 'b-cyl-340', closureId: 'c-flip-24', bpm: 130 },
+      { name: 'Pantene Conditioner 650 ml pump', bottleId: 'b-oval-650', closureId: 'c-pump-28', bpm: 110 },
+      { name: 'Herbal Essences Shampoo 340 ml', bottleId: 'b-cyl-340', closureId: 'c-flip-24', bpm: 130 },
     ],
     machines: [
       { id: 'L2-UNS', type: 'unscrambler', name: 'Robotic pick-and-place infeed', maxBpm: 150, heightMm: [100, 280], widthMm: [35, 110], depthMm: [25, 110], formats: ['oval-84x54', 'cylinder-58x58'] },
@@ -43,8 +43,8 @@ export const LINES: ProductionLine[] = [
   {
     id: 'L3', plant: 'Plant B', name: 'Line 3 · Value and small packs', targetBpm: 300, oeePct: 78, changeoverMin: 30,
     skus: [
-      { name: 'Kesha Shampoo 80 ml', bottleId: 'b-in-oval-80', closureId: 'c-in-flip-20', bpm: 320 },
-      { name: 'Kesha Shampoo 340 ml', bottleId: 'b-in-oval-340', closureId: 'c-in-flip-24', bpm: 260 },
+      { name: 'Head & Shoulders 80 ml (India)', bottleId: 'b-in-oval-80', closureId: 'c-in-flip-20', bpm: 320 },
+      { name: 'Pantene 340 ml (India)', bottleId: 'b-in-oval-340', closureId: 'c-in-flip-24', bpm: 260 },
     ],
     machines: [
       { id: 'L3-UNS', type: 'unscrambler', name: 'Linear unscrambler', maxBpm: 340, heightMm: [90, 210], widthMm: [30, 75], depthMm: [20, 50], formats: ['oval-46x28', 'oval-68x43'] },

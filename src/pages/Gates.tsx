@@ -117,6 +117,12 @@ export default function Gates() {
               </div>
               <ScoreRing score={r.total} size={60} />
             </div>
+            {sel.referenceImage && (
+              <div className="row" style={{ alignItems: 'flex-start', flexWrap: 'nowrap' }}>
+                <figure style={{ margin: 0, flex: 1 }}><img src={sel.referenceImage} alt="On market today" style={{ width: '100%', maxHeight: 200, objectFit: 'contain', background: '#fff', borderRadius: 6 }} /><figcaption className="small muted">On market today</figcaption></figure>
+                {sel.thumbnail && <figure style={{ margin: 0, flex: 1 }}><img src={sel.thumbnail} alt="Proposed" style={{ width: '100%', maxHeight: 200, objectFit: 'contain', borderRadius: 6 }} /><figcaption className="small muted">Proposed</figcaption></figure>}
+              </div>
+            )}
             {crit.length > 0 && (
               <div className="checklist">
                 {crit.map((c) => (

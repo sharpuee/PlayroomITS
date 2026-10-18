@@ -44,8 +44,8 @@ export function App() {
     <div className="shell">
       <nav className="rail" aria-label="Modules">
         <a className="brandmark" href="#/playroom">
-          <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden><rect x="10" y="3" width="12" height="6" rx="2" fill="#fff" /><rect x="7" y="9" width="18" height="21" rx="6" fill="#8b74f0" /></svg>
-          <b>Pack Playroom</b>
+          <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden><rect x="10" y="3" width="12" height="6" rx="2" fill="#fff" /><rect x="7" y="9" width="18" height="21" rx="6" fill="#3d7be0" /></svg>
+          <span><b>Pack Playroom</b><small>P&amp;G Hair Care</small></span>
         </a>
         {NAV.map((g) => (
           <div className="rail-group" key={g.group}>
@@ -64,7 +64,7 @@ export function App() {
             <span className="lbl">Settings and data</span>
           </a>
         </div>
-        <p className="foot">Demo data is fictional. Your work is saved in this browser.</p>
+        <p className="foot">Internal prototype, not an official P&amp;G site. Costs, lines and competitors are demo values. Your work and photos stay in this browser.</p>
       </nav>
       <div className="main">
         <header className="topbar">
