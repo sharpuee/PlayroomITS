@@ -2,11 +2,12 @@ import { useMemo, useState } from 'react';
 import { useStore, uid } from '../store';
 import type { BottleFamily, BottleSpec, Component, MarketId, Resin } from '../domain/types';
 import { Field, PhotoField, Seg, toast } from '../ui/kit';
+import { PROFILES } from '../data/profiles';
 
 type Kind = 'all' | 'bottle' | 'closure' | 'decoration';
 
 function spec(c: Component) {
-  if (c.kind === 'bottle') return `${c.volumeMl} ml · ${c.family} · ${c.resin} · ${c.neckFinish} · ${c.grams} g · ${c.widthMm}×${c.depthMm}×${c.heightMm} mm`;
+  if (c.kind === 'bottle') return `${c.profileId ? `${PROFILES[c.profileId]?.name ?? c.profileId} silhouette · ` : ''}${c.volumeMl} ml · ${c.family} · ${c.resin} · ${c.neckFinish} · ${c.grams} g · ${c.widthMm}×${c.depthMm}×${c.heightMm} mm`;
   if (c.kind === 'closure') return `${c.type} · fits ${c.neckFinishes.join(', ')} · Ø${c.diameterMm} mm · ${c.grams} g${c.outputCc ? ` · ${c.outputCc} cc` : ''}`;
   return `${c.type} · ${c.substrate}`;
 }
@@ -166,7 +167,7 @@ function NewBottle({ marketIds, onCreate, onCancel }: { marketIds: MarketId[]; o
   // Size the envelope from the volume using the platform oval's proportions.
   const k = Math.cbrt(vol / 400);
   const dims = {
-    oval: [72, 46, 205], cylinder: [58, 58, 190], flask: [68, 40, 178], tottle: [62, 40, 165], tube: [50, 50, 175],
+    oval: [72, 46, 205], cylinder: [58, 58, 190], flask: [68, 40, 178], tottle: [62, 40, 165], tube: [50, 50, 175], rectangle: [64, 40, 170],
   }[family].map((x) => Math.round(x * k));
   const grams = +(27 * Math.pow(vol / 400, 2 / 3) * (resin === 'PET' ? 0.85 : 1)).toFixed(1);
   const cost = +(grams / 1000 * 1.35 + 0.025).toFixed(3);
@@ -179,7 +180,7 @@ function NewBottle({ marketIds, onCreate, onCancel }: { marketIds: MarketId[]; o
       <div className="grid2" style={{ gap: 8 }}>
         <Field label="Family">
           <select value={family} onChange={(e) => setFamily(e.target.value as BottleFamily)}>
-            {['oval', 'cylinder', 'flask', 'tottle', 'tube'].map((f) => <option key={f}>{f}</option>)}
+            {['oval', 'cylinder', 'flask', 'tottle', 'tube', 'rectangle'].map((f) => <option key={f}>{f}</option>)}
           </select>
         </Field>
         <Field label="Resin">

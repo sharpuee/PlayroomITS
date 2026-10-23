@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import type { BottleFamily, ClosureType, DecorationType, Finish, LabelArt } from '../domain/types';
+import type { BottleFamily, ClosureSpec, ClosureType, DecorationType, Finish, LabelArt } from '../domain/types';
 import type { ResolvedPack } from '../domain/resolve';
 import type { CompetitorPack } from '../data/retail';
-import { arcLength, neckRadius, surfaceGeometry, type ShapeParams } from './geometry';
+import { arcLength, labelZone, neckRadius, surfaceGeometry, type ShapeParams } from './geometry';
+import { PROFILES } from '../data/profiles';
 import { makeLabelTextures } from './labelTexture';
 
 export interface PackVisual {
@@ -28,6 +29,25 @@ export interface PackVisual {
   ribbed: boolean;
   volumeText: string;
   resin: string;
+  profile?: number[];
+  xsec?: number;
+  closureStyle?: ClosureSpec['style'];
+}
+
+/** Shortens the traced neck so the closure seats on the shoulder, then resamples to 24 points. */
+export function prepareProfile(prof?: number[]): number[] | undefined {
+  if (!prof || prof.length < 4) return prof;
+  const top = prof[prof.length - 1];
+  let i = prof.length - 1;
+  while (i > 1 && prof[i - 1] <= top + 0.04) i--;
+  const kept = [...prof.slice(0, i), top, top];
+  const N = 24;
+  return Array.from({ length: N }, (_, k) => {
+    const x = (k / (N - 1)) * (kept.length - 1);
+    const j = Math.min(kept.length - 2, Math.floor(x));
+    const f = x - j;
+    return kept[j] * (1 - f) + kept[j + 1] * f;
+  });
 }
 
 export function visualFromPack(p: ResolvedPack): PackVisual {
@@ -37,6 +57,9 @@ export function visualFromPack(p: ResolvedPack): PackVisual {
     closureH: p.closure.heightMm, closureD: p.closure.diameterMm, bottleColor: d.bottleColor, capColor: d.capColor,
     liquidColor: d.liquidColor, finish: d.finish, capFinish: d.capFinish, decorationType: p.decoration.type, label: d.label,
     ribbed: !!d.shape.ribbed, volumeText: `${p.volumeMl} ml`, resin: p.bottle.resin,
+    profile: prepareProfile(p.bottle.profileId ? PROFILES[p.bottle.profileId]?.profile : undefined),
+    xsec: p.bottle.family === 'rectangle' ? 5.5 : undefined,
+    closureStyle: p.closure.style,
   };
 }
 
@@ -98,8 +121,9 @@ export function PackModel({ v, lite = false, open = false, pressed = false }: Pr
   const fonts = useFontsReady();
   const neckR = neckRadius(v.neckFinish);
   const shape: ShapeParams = useMemo(
-    () => ({ family: v.family, heightMm: v.heightMm, widthMm: v.widthMm, depthMm: v.depthMm, shoulder: v.shoulder, waist: v.waist, neckR }),
-    [v.family, v.heightMm, v.widthMm, v.depthMm, v.shoulder, v.waist, neckR],
+    () => ({ family: v.family, heightMm: v.heightMm, widthMm: v.widthMm, depthMm: v.depthMm, shoulder: v.shoulder, waist: v.waist, neckR, profile: v.profile, xsec: v.xsec }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [v.family, v.heightMm, v.widthMm, v.depthMm, v.shoulder, v.waist, neckR, v.profile?.join(','), v.xsec],
   );
   const segs = lite ? 40 : 112;
   const rings = lite ? 28 : 80;
@@ -118,8 +142,9 @@ export function PackModel({ v, lite = false, open = false, pressed = false }: Pr
     return surfaceGeometry(inner, 2, shape.heightMm * 0.72, 0, Math.PI * 2, -1.2, 64, 40, true);
   }, [shape, transparentBody]);
 
-  // Label panels.
-  const bodyH = shape.heightMm * 0.78;
+  // Label panels sit inside the flat part of the body.
+  const [zLo, zHi] = labelZone(shape);
+  const bodyH = shape.heightMm * (zHi + 0.03);
   const L = v.label;
   const panels = useMemo(() => {
     const out: { geo: THREE.BufferGeometry; face: 'front' | 'back' | 'sleeve' | 'wrap'; aspect: number }[] = [];
@@ -129,7 +154,7 @@ export function PackModel({ v, lite = false, open = false, pressed = false }: Pr
     const lr = lite ? 12 : 40;
     if (isSleeve) {
       const y0 = shape.heightMm * 0.03;
-      const y1 = shape.heightMm * 0.86;
+      const y1 = shape.heightMm * Math.min(0.9, zHi + 0.1);
       const geo = surfaceGeometry(shape, y0, y1, -Math.PI / 2, Math.PI * 1.5, off, ls * 2, lr * 2);
       const arc = arcLength(shape, (y0 + y1) / 2, 0, Math.PI * 2);
       out.push({ geo, face: 'sleeve', aspect: arc / (y1 - y0) });
@@ -137,8 +162,8 @@ export function PackModel({ v, lite = false, open = false, pressed = false }: Pr
     }
     const lh = bodyH * L.heightPct;
     const center = bodyH * L.offsetPct + shape.heightMm * 0.03;
-    const y0 = Math.max(shape.heightMm * 0.04, center - lh / 2);
-    const y1 = Math.min(shape.heightMm * 0.75, center + lh / 2);
+    const y0 = Math.max(shape.heightMm * zLo, center - lh / 2);
+    const y1 = Math.min(shape.heightMm * zHi, center + lh / 2);
     const yc = (y0 + y1) / 2;
     const span = L.wrap === 'wrap' ? Math.PI * 2 * 0.92 : v.family === 'cylinder' || v.family === 'tube' ? 1.6 : 1.9;
     const front = surfaceGeometry(shape, y0, y1, Math.PI / 2 - span / 2, Math.PI / 2 + span / 2, off, ls, lr);
@@ -148,7 +173,7 @@ export function PackModel({ v, lite = false, open = false, pressed = false }: Pr
       out.push({ geo: back, face: 'back', aspect: arcLength(shape, yc, 0, span) / (y1 - y0) });
     }
     return out;
-  }, [shape, L.heightPct, L.offsetPct, L.wrap, v.decorationType, v.family, bodyH, lite]);
+  }, [shape, L.heightPct, L.offsetPct, L.wrap, v.decorationType, v.family, bodyH, zLo, zHi, lite]);
   useEffect(() => () => panels.forEach((p) => p.geo.dispose()), [panels]);
 
   const labelMats = useMemo(
@@ -198,13 +223,17 @@ export function PackModel({ v, lite = false, open = false, pressed = false }: Pr
         <mesh key={`r${i}`} geometry={g} material={bodyMat} />
       ))}
       <group position={[0, capBase, 0]}>
-        <Closure type={v.closureType} h={v.closureH} d={v.closureD} mat={capMat} open={open} pressed={pressed} lite={lite} />
+        <Closure type={v.closureType} style={v.closureStyle} neckR={neckR} h={v.closureH} d={v.closureD} mat={capMat} open={open} pressed={pressed} lite={lite} />
       </group>
     </group>
   );
 }
 
-function Closure({ type, h, d, mat, open, pressed, lite }: { type: ClosureType; h: number; d: number; mat: THREE.Material; open: boolean; pressed: boolean; lite: boolean }) {
+function lathe(points: [number, number][], seg: number) {
+  return new THREE.LatheGeometry(points.map(([r, y]) => new THREE.Vector2(Math.max(0.01, r), y)), seg);
+}
+
+function Closure({ type, style, neckR, h, d, mat, open, pressed, lite }: { type: ClosureType; style?: ClosureSpec['style']; neckR: number; h: number; d: number; mat: THREE.Material; open: boolean; pressed: boolean; lite: boolean }) {
   const r = d / 2;
   const lid = useRef<THREE.Group>(null);
   const head = useRef<THREE.Group>(null);
@@ -216,6 +245,104 @@ function Closure({ type, h, d, mat, open, pressed, lite }: { type: ClosureType; 
     if (disc.current) disc.current.rotation.x += ((open ? -0.35 : 0) - disc.current.rotation.x) * k;
   });
   const seg = lite ? 24 : 64;
+  const shapes = useMemo(() => {
+    const collar = neckR + 2.2;
+    if (style === 'dome-flip') {
+      // H&S style: straight skirt, then a tall dome lid that continues the bottle's curve.
+      const baseH = h * 0.42;
+      const lidH = h - baseH;
+      const base = lathe([[0, 0], [r, 0], [r, baseH], [r * 0.2, baseH]], seg);
+      const pts: [number, number][] = [[r * 0.98, 0]];
+      for (let i = 1; i <= 10; i++) {
+        const k = i / 10;
+        pts.push([r * 0.98 * Math.cos((k * Math.PI) / 2) ** 0.55, lidH * Math.sin((k * Math.PI) / 2)]);
+      }
+      return { kind: 'dome' as const, base, baseH, lid: lathe(pts, seg), lidH };
+    }
+    if (style === 'spout-pump') {
+      // Lock-down pump: ribbed collar, short neck, rounded head with a long spout.
+      const collarH = h * 0.42;
+      const head = lathe([[0, 0], [r * 0.82, 0], [r * 0.86, h * 0.2], [r * 0.7, h * 0.27], [0, h * 0.29]], seg);
+      return { kind: 'spout' as const, collar: lathe([[0, 0], [collar + 1, 0], [collar + 1, collarH * 0.92], [collar - 1, collarH], [0, collarH]], seg), collarH, head };
+    }
+    if (style === 'disc-pump') {
+      // Gold disc-head pump: ribbed collar, slim stem, wide flat disc actuator.
+      const collarH = h * 0.36;
+      const disc = lathe([[0, 0], [r * 0.25, 0], [r * 0.92, h * 0.05], [r, h * 0.1], [r * 0.95, h * 0.14], [r * 0.6, h * 0.17], [0, h * 0.18]], seg);
+      return { kind: 'disc' as const, collar: lathe([[0, 0], [collar + 1.5, 0], [collar + 1.5, collarH], [collar * 0.75, collarH + 2], [0, collarH + 2]], seg), collarH, disc };
+    }
+    return null;
+  }, [style, h, r, neckR, seg]);
+  useEffect(() => () => { if (shapes) Object.values(shapes).forEach((g) => { if (g instanceof THREE.BufferGeometry) g.dispose(); }); }, [shapes]);
+
+  if (shapes?.kind === 'dome') {
+    return (
+      <group>
+        <mesh geometry={shapes.base} material={mat} castShadow />
+        <group ref={lid} position={[0, shapes.baseH, -r * 0.95]}>
+          <mesh geometry={shapes.lid} material={mat} position={[0, 0, r * 0.95]} castShadow />
+        </group>
+      </group>
+    );
+  }
+  if (shapes?.kind === 'spout') {
+    const stemH = h * 0.24;
+    const headY = shapes.collarH + stemH;
+    return (
+      <group>
+        <mesh geometry={shapes.collar} material={mat} castShadow />
+        {!lite && Array.from({ length: 24 }).map((_, i) => {
+          const a = (i / 24) * Math.PI * 2;
+          const cr = neckR + 3.1;
+          return (
+            <mesh key={i} material={mat} position={[Math.cos(a) * cr, shapes.collarH / 2, Math.sin(a) * cr]} rotation={[0, -a, 0]}>
+              <boxGeometry args={[0.9, shapes.collarH * 0.8, 1]} />
+            </mesh>
+          );
+        })}
+        <group ref={head}>
+          <mesh material={mat} position={[0, shapes.collarH + stemH / 2, 0]}>
+            <cylinderGeometry args={[r * 0.42, r * 0.5, stemH, seg / 2]} />
+          </mesh>
+          <group position={[0, headY, 0]}>
+            <mesh geometry={shapes.head} material={mat} castShadow />
+            <mesh material={mat} position={[-r * 1.25, h * 0.2, 0]} rotation={[0, 0, Math.PI / 2 + 0.12]} castShadow>
+              <cylinderGeometry args={[r * 0.24, r * 0.34, r * 1.9, 20]} />
+            </mesh>
+          </group>
+        </group>
+      </group>
+    );
+  }
+  if (shapes?.kind === 'disc') {
+    const stemH = h * 0.44;
+    return (
+      <group>
+        <mesh geometry={shapes.collar} material={mat} castShadow />
+        {!lite && Array.from({ length: 28 }).map((_, i) => {
+          const a = (i / 28) * Math.PI * 2;
+          const cr = neckR + 3.8;
+          return (
+            <mesh key={i} material={mat} position={[Math.cos(a) * cr, shapes.collarH / 2, Math.sin(a) * cr]} rotation={[0, -a, 0]}>
+              <boxGeometry args={[0.9, shapes.collarH * 0.85, 1]} />
+            </mesh>
+          );
+        })}
+        <group ref={head}>
+          <mesh material={mat} position={[0, shapes.collarH + stemH / 2, 0]}>
+            <cylinderGeometry args={[neckR * 0.5, neckR * 0.65, stemH, seg / 2]} />
+          </mesh>
+          <mesh material={mat} position={[0, shapes.collarH + stemH * 0.88, 0]}>
+            <cylinderGeometry args={[neckR * 0.85, neckR * 0.55, 5, seg / 2]} />
+          </mesh>
+          <mesh geometry={shapes.disc} material={mat} position={[0, shapes.collarH + stemH, 0]} castShadow />
+          <mesh material={mat} position={[0, shapes.collarH + stemH - 1, r * 0.55]} rotation={[Math.PI / 2, 0, 0]}>
+            <cylinderGeometry args={[2.2, 2.6, r * 0.7, 12]} />
+          </mesh>
+        </group>
+      </group>
+    );
+  }
 
   if (type === 'pump' || type === 'foam-pump') {
     const collarH = 14;

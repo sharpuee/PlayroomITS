@@ -3,7 +3,7 @@ import { useStore } from '../store';
 import type { BottleFamily, Brand, Market } from '../domain/types';
 import { ColorField, Field, download, toast } from '../ui/kit';
 
-const FAMILIES: BottleFamily[] = ['oval', 'cylinder', 'flask', 'tottle', 'tube'];
+const FAMILIES: BottleFamily[] = ['oval', 'cylinder', 'flask', 'tottle', 'tube', 'rectangle'];
 
 export default function Settings() {
   const s = useStore();

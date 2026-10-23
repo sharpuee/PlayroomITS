@@ -3,7 +3,7 @@
 export type Scope = 'global' | 'local';
 export type MarketId = 'global' | 'IN' | 'US' | 'EU' | 'SEA';
 
-export type BottleFamily = 'oval' | 'cylinder' | 'flask' | 'tottle' | 'tube';
+export type BottleFamily = 'oval' | 'cylinder' | 'flask' | 'tottle' | 'tube' | 'rectangle';
 export type Resin = 'HDPE' | 'PET' | 'PP' | 'LDPE';
 
 export interface Supplier {
@@ -40,6 +40,8 @@ export interface BottleSpec extends ComponentBase {
   neckFinish: string; // e.g. '24/410'
   grams: number;
   process: 'EBM' | 'ISBM' | 'IM' | 'Extruded tube';
+  /** Key into PROFILES: a silhouette traced from the packaging playbook. */
+  profileId?: string;
 }
 
 export type ClosureType = 'flip-top' | 'disc-top' | 'screw' | 'pump' | 'foam-pump' | 'valve' | 'tube-cap';
@@ -56,6 +58,8 @@ export interface ClosureSpec extends ComponentBase {
   needsOrientation: boolean;
   torqueNm: [number, number];
   mono: boolean; // mono-material, no metal spring
+  /** Visual style traced from the playbook: H&S dome flip-top, lock-down spout pump, disc-head pump. */
+  style?: 'standard' | 'dome-flip' | 'spout-pump' | 'disc-pump';
 }
 
 export type DecorationType = 'ps-label' | 'shrink-sleeve' | 'iml' | 'screen-print' | 'hot-foil' | 'digital-print';

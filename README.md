@@ -59,6 +59,10 @@ Brand names are the three starting brands; brand colours are approximate. Costs,
 
 You can also edit most of this in the app and use **Settings → Export all data** to share a dataset with your team.
 
+## Bottle and cap shapes
+
+Bottle silhouettes in `src/data/profiles.ts` were traced from the Hair Care packaging playbook: the current H&S swan and Pantene slim portfolio, the on-menu global shapes (swan PET, J-shape, column, cylindrical, Herbal Essences round shoulder) and the stock HDPE/PET bottles from incumbent suppliers. Closures follow the same source: the H&S dome flip-top, the blue lock-down spout pump and the gold disc-head pump. Only the traced outlines are stored in this repository, not the source pictures.
+
 ## Pack photos
 
 Upload your own approved pack shots in the Playroom (Reference photo) and in the Component library (Part photo). Photos are resized and stored in your browser only; they are not committed to this repository or published with the site. Export data from Settings to share them with a colleague.

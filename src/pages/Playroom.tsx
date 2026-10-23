@@ -10,6 +10,7 @@ import { PackModel, visualFromPack, packTotalHeight } from '../three/PackModel';
 import { Studio, type SnapshotFn } from '../three/Studio';
 import { ColorField, Field, PhotoField, ScoreRing, Seg, Slider, VerdictBadge, toast } from '../ui/kit';
 import { LENSES } from '../domain/coach';
+import { PROFILES } from '../data/profiles';
 
 const FINISHES_OPAQUE: Finish[] = ['gloss', 'matte', 'soft-touch', 'pearl', 'metallic'];
 const FINISHES_PET: Finish[] = ['clear', 'frosted', 'gloss', 'pearl'];
@@ -185,7 +186,8 @@ export default function Playroom() {
             {pack.bottle.family !== 'cylinder' && pack.bottle.family !== 'tube' && (
               <Slider label="Depth" value={pack.dims.depthMm} min={Math.round(pack.bottle.depthMm * 0.75)} max={Math.round(pack.bottle.depthMm * 1.35)} onChange={(v) => set({ shape: { ...design.shape, depthMm: v } })} fmt={fmtMm} />
             )}
-            <Slider label="Shoulder" value={pack.dims.shoulder} min={0} max={1} step={0.05} onChange={(v) => set({ shape: { ...design.shape, shoulder: v } })} fmt={(v) => (v < 0.35 ? 'conical' : v > 0.7 ? 'rounded' : 'soft')} />
+            {pack.bottle.profileId && <p className="small muted">Silhouette: {PROFILES[pack.bottle.profileId]?.name ?? pack.bottle.profileId}, traced from the packaging playbook.</p>}
+            {!pack.bottle.profileId && <Slider label="Shoulder" value={pack.dims.shoulder} min={0} max={1} step={0.05} onChange={(v) => set({ shape: { ...design.shape, shoulder: v } })} fmt={(v) => (v < 0.35 ? 'conical' : v > 0.7 ? 'rounded' : 'soft')} />}
             <Slider label="Waist" value={pack.dims.waist} min={0} max={0.14} step={0.01} onChange={(v) => set({ shape: { ...design.shape, waist: v } })} fmt={(v) => `${(v * 100).toFixed(0)}%`} />
             <label className="row small">
               <input type="checkbox" checked={!!design.shape.ribbed} onChange={(e) => set({ shape: { ...design.shape, ribbed: e.target.checked } })} />

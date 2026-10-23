@@ -12,13 +12,35 @@ export interface ShapeParams {
   shoulder: number;
   waist: number;
   neckR: number;
+  /** Traced front silhouette: half-widths base→neck top, normalised to 1 at the widest point. */
+  profile?: number[];
+  /** Cross-section squareness override (2 = ellipse, higher = squarer). */
+  xsec?: number;
+}
+
+function sampleProfile(prof: number[], t: number) {
+  const x = Math.max(0, Math.min(1, t)) * (prof.length - 1);
+  const i = Math.min(prof.length - 2, Math.floor(x));
+  const f = x - i;
+  // smoothstep between samples keeps the surface free of creases
+  const g = f * f * (3 - 2 * f);
+  return prof[i] * (1 - g) + prof[i + 1] * g;
+}
+
+/** Vertical band (fractions of height) where a label can sit flat on the body. */
+export function labelZone(p: Pick<ShapeParams, 'profile'>): [number, number] {
+  if (!p.profile) return [0.04, 0.75];
+  const prof = p.profile;
+  let top = prof.length - 1;
+  while (top > 0 && prof[top] < 0.9) top--;
+  return [0.04, Math.max(0.35, (top / (prof.length - 1)) - 0.03)];
 }
 
 const SHOULDER_START = 0.76;
 const NECK_START = 0.9;
 
 export function exponent(family: BottleFamily) {
-  return { oval: 2.7, cylinder: 2, flask: 3.4, tottle: 2.5, tube: 2 }[family];
+  return { oval: 2.7, cylinder: 2, flask: 3.4, tottle: 2.5, tube: 2, rectangle: 5.5 }[family];
 }
 
 /** Half-axes (a, b) at height y. */
@@ -41,6 +63,19 @@ export function halfAxes(p: ShapeParams, y: number): [number, number] {
       return [A + (n + 2 - A) * k, B + (n + 2 - B) * k];
     }
     return [n, n];
+  }
+
+  if (p.profile) {
+    const prof = p.profile;
+    const pTop = prof[prof.length - 1];
+    const v = sampleProfile(prof, t);
+    const k = (v - pTop) / Math.max(0.05, 1 - pTop);
+    const neckA = n + 0.6;
+    const heel = t < 0.025 ? 0.9 + 0.1 * Math.sin(((t / 0.025) * Math.PI) / 2) : 1;
+    const pinch = 1 - p.waist * Math.exp(-(((t - 0.46) / 0.14) ** 2));
+    const ring = t > 0.955 && t < 0.968 ? 2.2 : 0;
+    if (k <= 0.001) return [neckA + ring, neckA + ring];
+    return [(neckA + (A - neckA) * k) * heel * pinch, (neckA + (B - neckA) * k) * heel * pinch];
   }
 
   // Heel: rounded base.
@@ -68,7 +103,14 @@ export function halfAxes(p: ShapeParams, y: number): [number, number] {
 
 export function sectionExponent(p: ShapeParams, y: number) {
   const t = y / p.heightMm;
-  const base = exponent(p.family);
+  const base = p.xsec ?? exponent(p.family);
+  if (p.profile) {
+    const prof = p.profile;
+    const pTop = prof[prof.length - 1];
+    const k = Math.max(0, Math.min(1, (sampleProfile(prof, t) - pTop) / Math.max(0.05, 1 - pTop)));
+    // round off into the neck as the silhouette closes in
+    return 2 + (base - 2) * Math.pow(k, 1.5);
+  }
   if (t > SHOULDER_START) {
     const k = Math.min(1, (t - SHOULDER_START) / (NECK_START - SHOULDER_START));
     return base + (2 - base) * k;

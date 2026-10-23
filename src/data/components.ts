@@ -5,35 +5,67 @@ import type { BottleSpec, ClosureSpec, DecorationSpec, Component } from '../doma
 const G = { name: 'Global platform supplier', region: 'Global' };
 
 export const BOTTLES: BottleSpec[] = [
+  // Current H&S portfolio (swan oval) — shapes traced from the bottle portfolio line-up.
   {
-    id: 'b-oval-400', kind: 'bottle', name: 'Platform oval 400 ml', family: 'oval', resin: 'HDPE', scope: 'global',
-    markets: ['global', 'IN', 'US', 'EU', 'SEA'], supplier: G, volumeMl: 400, heightMm: 205, widthMm: 72, depthMm: 46,
-    shoulder: 0.55, waist: 0.04, neckFinish: '24/410', grams: 27, process: 'EBM', unitCostUsd: 0.072, moq: 200000,
-    leadTimeWeeks: 6, toolingUsd: 45000, owned: true,
-  },
-  {
-    id: 'b-oval-650', kind: 'bottle', name: 'Platform oval 650 ml', family: 'oval', resin: 'HDPE', scope: 'global',
-    markets: ['global', 'IN', 'US', 'EU', 'SEA'], supplier: G, volumeMl: 650, heightMm: 238, widthMm: 84, depthMm: 54,
-    shoulder: 0.55, waist: 0.04, neckFinish: '28/410', grams: 38, process: 'EBM', unitCostUsd: 0.098, moq: 200000,
-    leadTimeWeeks: 6, toolingUsd: 52000, owned: true,
-  },
-  {
-    id: 'b-oval-180', kind: 'bottle', name: 'Platform oval 180 ml', family: 'oval', resin: 'HDPE', scope: 'global',
-    markets: ['global', 'IN', 'SEA'], supplier: G, volumeMl: 180, heightMm: 158, widthMm: 58, depthMm: 36,
-    shoulder: 0.55, waist: 0.03, neckFinish: '24/410', grams: 16, process: 'EBM', unitCostUsd: 0.045, moq: 300000,
+    id: 'b-oval-180', kind: 'bottle', name: 'H&S swan oval 180 ml', family: 'oval', resin: 'HDPE', scope: 'global', profileId: 'hs-swan',
+    markets: ['global', 'IN', 'SEA'], supplier: G, volumeMl: 180, heightMm: 150, widthMm: 58, depthMm: 36,
+    shoulder: 0.55, waist: 0, neckFinish: '24/410', grams: 16, process: 'EBM', unitCostUsd: 0.045, moq: 300000,
     leadTimeWeeks: 6, toolingUsd: 38000, owned: true,
   },
   {
-    id: 'b-cyl-340', kind: 'bottle', name: 'Cylinder 340 ml', family: 'cylinder', resin: 'HDPE', scope: 'global',
-    markets: ['global', 'US', 'EU'], supplier: G, volumeMl: 340, heightMm: 190, widthMm: 58, depthMm: 58,
-    shoulder: 0.35, waist: 0, neckFinish: '24/410', grams: 24, process: 'EBM', unitCostUsd: 0.064, moq: 200000,
-    leadTimeWeeks: 6, toolingUsd: 40000, owned: true,
+    id: 'b-oval-400', kind: 'bottle', name: 'H&S swan oval 400 ml', family: 'oval', resin: 'HDPE', scope: 'global', profileId: 'hs-swan',
+    markets: ['global', 'IN', 'US', 'EU', 'SEA'], supplier: G, volumeMl: 400, heightMm: 190, widthMm: 72, depthMm: 46,
+    shoulder: 0.55, waist: 0, neckFinish: '24/410', grams: 27, process: 'EBM', unitCostUsd: 0.072, moq: 200000,
+    leadTimeWeeks: 6, toolingUsd: 45000, owned: true,
   },
   {
-    id: 'b-pet-flask-300', kind: 'bottle', name: 'Clear PET flask 300 ml', family: 'flask', resin: 'PET', scope: 'global',
-    markets: ['global', 'US', 'EU', 'SEA'], supplier: G, volumeMl: 300, heightMm: 178, widthMm: 68, depthMm: 40,
-    shoulder: 0.75, waist: 0.0, neckFinish: '24/410', grams: 22, process: 'ISBM', unitCostUsd: 0.081, moq: 250000,
-    leadTimeWeeks: 8, toolingUsd: 60000, owned: false, notes: 'Shows product colour and pearl; clarity drops above 25% PCR.',
+    id: 'b-oval-650', kind: 'bottle', name: 'H&S swan oval 650 ml', family: 'oval', resin: 'HDPE', scope: 'global', profileId: 'hs-swan',
+    markets: ['global', 'IN', 'US', 'EU', 'SEA'], supplier: G, volumeMl: 650, heightMm: 225, widthMm: 84, depthMm: 54,
+    shoulder: 0.55, waist: 0, neckFinish: '28/410', grams: 38, process: 'EBM', unitCostUsd: 0.098, moq: 200000,
+    leadTimeWeeks: 6, toolingUsd: 52000, owned: true,
+  },
+  {
+    id: 'b-hs-swan-1000', kind: 'bottle', name: 'H&S swan oval 1000 ml (pump)', family: 'oval', resin: 'HDPE', scope: 'global', profileId: 'hs-swan',
+    markets: ['global', 'IN', 'US', 'EU', 'SEA'], supplier: G, volumeMl: 1000, heightMm: 255, widthMm: 104, depthMm: 64,
+    shoulder: 0.55, waist: 0, neckFinish: '28/410', grams: 56, process: 'EBM', unitCostUsd: 0.15, moq: 150000,
+    leadTimeWeeks: 6, toolingUsd: 60000, owned: true, notes: 'Family-size pack sold with a pump.',
+  },
+  // On-menu global shapes
+  {
+    id: 'b-hs-supreme-300', kind: 'bottle', name: 'H&S swan PET 300 ml', family: 'oval', resin: 'PET', scope: 'global', profileId: 'hs-supreme',
+    markets: ['global', 'IN', 'US', 'EU', 'SEA'], supplier: G, volumeMl: 300, heightMm: 182, widthMm: 66, depthMm: 40,
+    shoulder: 0.6, waist: 0, neckFinish: '24/410', grams: 22, process: 'ISBM', unitCostUsd: 0.082, moq: 250000,
+    leadTimeWeeks: 8, toolingUsd: 60000, owned: false, notes: 'Swan PET/HDPE family, 150 to 800 ml; usually sleeved.',
+  },
+  {
+    id: 'b-hs-men-300', kind: 'bottle', name: 'H&S men tapered 300 ml', family: 'oval', resin: 'HDPE', scope: 'global', profileId: 'hs-men',
+    markets: ['global', 'US', 'EU', 'SEA'], supplier: G, volumeMl: 300, heightMm: 178, widthMm: 62, depthMm: 42,
+    shoulder: 0.6, waist: 0, neckFinish: '24/410', grams: 23, process: 'EBM', unitCostUsd: 0.07, moq: 200000,
+    leadTimeWeeks: 6, toolingUsd: 45000, owned: false,
+  },
+  {
+    id: 'b-pa-j-750', kind: 'bottle', name: 'Pantene J-shape 750 ml', family: 'oval', resin: 'HDPE', scope: 'global', profileId: 'pantene-j',
+    markets: ['global', 'US'], supplier: G, volumeMl: 750, heightMm: 240, widthMm: 84, depthMm: 58,
+    shoulder: 0.5, waist: 0, neckFinish: '28/410', grams: 44, process: 'EBM', unitCostUsd: 0.12, moq: 150000,
+    leadTimeWeeks: 8, toolingUsd: 55000, owned: false, notes: 'J-shape family: 235, 625, 750 and 1140 ml.',
+  },
+  {
+    id: 'b-pa-column-1000', kind: 'bottle', name: 'Pantene column 1000 ml (pump)', family: 'oval', resin: 'HDPE', scope: 'global', profileId: 'pantene-column',
+    markets: ['global', 'IN', 'SEA'], supplier: G, volumeMl: 1000, heightMm: 205, widthMm: 104, depthMm: 72,
+    shoulder: 0.5, waist: 0, neckFinish: '28/410', grams: 58, process: 'EBM', unitCostUsd: 0.155, moq: 150000,
+    leadTimeWeeks: 8, toolingUsd: 60000, owned: true, notes: 'Column equity: 400, 500 and 1000 ml.',
+  },
+  {
+    id: 'b-pa-cyl-400', kind: 'bottle', name: 'Pantene cylindrical 400 ml', family: 'cylinder', resin: 'PET', scope: 'global', profileId: 'pantene-cyl',
+    markets: ['global', 'US', 'EU', 'SEA'], supplier: G, volumeMl: 400, heightMm: 178, widthMm: 64, depthMm: 64,
+    shoulder: 0.5, waist: 0, neckFinish: '24/410', grams: 30, process: 'ISBM', unitCostUsd: 0.095, moq: 200000,
+    leadTimeWeeks: 8, toolingUsd: 60000, owned: false, notes: 'Cylindrical family, 150 to 800 ml; usually sleeved.',
+  },
+  {
+    id: 'b-he-round-400', kind: 'bottle', name: 'Herbal Essences round-shoulder 400 ml', family: 'cylinder', resin: 'PET', scope: 'global', profileId: 'herbal-round',
+    markets: ['global', 'US', 'EU', 'SEA', 'IN'], supplier: G, volumeMl: 400, heightMm: 192, widthMm: 66, depthMm: 66,
+    shoulder: 0.6, waist: 0, neckFinish: '24/410', grams: 29, process: 'ISBM', unitCostUsd: 0.09, moq: 200000,
+    leadTimeWeeks: 8, toolingUsd: 60000, owned: false,
   },
   {
     id: 'b-tottle-250', kind: 'bottle', name: 'Inverted tottle 250 ml', family: 'tottle', resin: 'PP', scope: 'global',
@@ -42,40 +74,54 @@ export const BOTTLES: BottleSpec[] = [
     leadTimeWeeks: 8, toolingUsd: 55000, owned: false, notes: 'Stands on its cap; best for conditioner evacuation.',
   },
   {
-    id: 'b-tube-200', kind: 'bottle', name: 'Squeeze tube 200 ml', family: 'tube', resin: 'LDPE', scope: 'global',
-    markets: ['global', 'US', 'EU', 'SEA'], supplier: G, volumeMl: 200, heightMm: 175, widthMm: 50, depthMm: 50,
+    id: 'b-tube-200', kind: 'bottle', name: 'Conditioner tube 200 ml', family: 'tube', resin: 'LDPE', scope: 'global',
+    markets: ['global', 'IN', 'US', 'EU', 'SEA'], supplier: G, volumeMl: 200, heightMm: 175, widthMm: 50, depthMm: 50,
     shoulder: 0.2, waist: 0, neckFinish: 'tube 35mm', grams: 14, process: 'Extruded tube', unitCostUsd: 0.07, moq: 150000,
-    leadTimeWeeks: 5, toolingUsd: 12000, owned: false, notes: 'Masks and treatments. Runs on a tube filler, not a bottle line.',
+    leadTimeWeeks: 5, toolingUsd: 12000, owned: true, notes: 'Pantene conditioner tubes (100 and 200 ml). Runs on a tube filler, not a bottle line.',
   },
-  // Local menu examples
+  // Current India local formats
   {
-    id: 'b-in-oval-80', kind: 'bottle', name: 'India value oval 80 ml', family: 'oval', resin: 'HDPE', scope: 'local',
-    markets: ['IN'], supplier: { name: 'Western India blow moulder', region: 'India' }, volumeMl: 80, heightMm: 118, widthMm: 46,
-    depthMm: 28, shoulder: 0.5, waist: 0.02, neckFinish: '20/410', grams: 9, process: 'EBM', unitCostUsd: 0.026, moq: 500000,
+    id: 'b-in-oval-80', kind: 'bottle', name: 'H&S swan oval 80 ml (India)', family: 'oval', resin: 'HDPE', scope: 'local', profileId: 'hs-swan',
+    markets: ['IN'], supplier: { name: 'Local blow moulder', region: 'India' }, volumeMl: 80, heightMm: 118, widthMm: 46,
+    depthMm: 28, shoulder: 0.5, waist: 0, neckFinish: '20/410', grams: 9, process: 'EBM', unitCostUsd: 0.026, moq: 500000,
     leadTimeWeeks: 4, toolingUsd: 9000, owned: true, notes: 'Entry price point for general trade.',
   },
   {
-    id: 'b-in-oval-340', kind: 'bottle', name: 'India oval 340 ml (local)', family: 'oval', resin: 'HDPE', scope: 'local',
-    markets: ['IN'], supplier: { name: 'Northern India blow moulder', region: 'India' }, volumeMl: 340, heightMm: 192, widthMm: 68,
-    depthMm: 43, shoulder: 0.5, waist: 0.04, neckFinish: '24/410', grams: 25, process: 'EBM', unitCostUsd: 0.058, moq: 300000,
+    id: 'b-in-oval-340', kind: 'bottle', name: 'Pantene slim oval 340 ml (India)', family: 'oval', resin: 'HDPE', scope: 'local', profileId: 'pantene-slim',
+    markets: ['IN'], supplier: { name: 'Local blow moulder', region: 'India' }, volumeMl: 340, heightMm: 200, widthMm: 68,
+    depthMm: 43, shoulder: 0.5, waist: 0, neckFinish: '24/410', grams: 25, process: 'EBM', unitCostUsd: 0.058, moq: 300000,
     leadTimeWeeks: 4, toolingUsd: 15000, owned: true,
   },
   {
-    id: 'b-us-oval-750', kind: 'bottle', name: 'US club-size oval 750 ml', family: 'oval', resin: 'HDPE', scope: 'local',
-    markets: ['US'], supplier: { name: 'Midwest blow moulder', region: 'USA' }, volumeMl: 750, heightMm: 252, widthMm: 90,
-    depthMm: 58, shoulder: 0.55, waist: 0.05, neckFinish: '28/410', grams: 44, process: 'EBM', unitCostUsd: 0.12, moq: 150000,
-    leadTimeWeeks: 6, toolingUsd: 30000, owned: true,
+    id: 'b-pa-slim-650', kind: 'bottle', name: 'Pantene slim oval 650 ml (India)', family: 'oval', resin: 'HDPE', scope: 'local', profileId: 'pantene-slim',
+    markets: ['IN'], supplier: { name: 'Local blow moulder', region: 'India' }, volumeMl: 650, heightMm: 238, widthMm: 80,
+    depthMm: 50, shoulder: 0.5, waist: 0, neckFinish: '28/410', grams: 38, process: 'EBM', unitCostUsd: 0.092, moq: 200000,
+    leadTimeWeeks: 4, toolingUsd: 18000, owned: true,
   },
+  // Off-menu stock bottles from incumbent suppliers (pump compatible, no new mould)
+  ...([
+    ['b-stock-hdpe-oval-250', 'Stock HDPE oval 250 ml', 'oval', 'HDPE', 'off-hdpe-oval', 250, 140, 64, 48, 19],
+    ['b-stock-hdpe-rect-200', 'Stock HDPE rectangle 200 ml', 'rectangle', 'HDPE', 'off-hdpe-rect', 200, 150, 60, 38, 17],
+    ['b-stock-hdpe-round-200', 'Stock HDPE round 200 ml', 'cylinder', 'HDPE', 'off-hdpe-round', 200, 165, 50, 50, 16],
+    ['b-stock-pet-oval-250', 'Stock clear PET oval 250 ml', 'oval', 'PET', 'off-pet-oval', 250, 160, 60, 46, 18],
+    ['b-stock-pet-cyl-300', 'Stock clear PET cylinder 300 ml', 'cylinder', 'PET', 'off-pet-cyl', 300, 195, 55, 55, 20],
+  ] as const).map(([id, name, family, resin, profileId, volumeMl, heightMm, widthMm, depthMm, grams]): BottleSpec => ({
+    id, kind: 'bottle', name, family, resin, profileId, scope: 'local', markets: ['IN'],
+    supplier: { name: 'Incumbent bottle supplier (stock mould)', region: 'India' }, volumeMl, heightMm, widthMm, depthMm,
+    shoulder: 0.6, waist: 0, neckFinish: '24/410', grams, process: resin === 'PET' ? 'ISBM' : 'EBM',
+    unitCostUsd: +(grams / 1000 * 1.35 + 0.03).toFixed(3), moq: 100000, leadTimeWeeks: 4, toolingUsd: 0, owned: false,
+    notes: 'Off-menu stock design: no new mould, works with lotion pumps; needs line change parts and qualification.',
+  })),
 ];
 
 export const CLOSURES: ClosureSpec[] = [
   {
-    id: 'c-flip-24', kind: 'closure', name: 'Flip-top 24 mm', type: 'flip-top', scope: 'global', markets: ['global', 'IN', 'US', 'EU', 'SEA'],
+    id: 'c-flip-24', kind: 'closure', name: 'Flip-top 24 mm (Pantene style)', type: 'flip-top', scope: 'global', markets: ['global', 'IN', 'US', 'EU', 'SEA'],
     supplier: G, neckFinishes: ['24/410'], heightMm: 24, diameterMm: 30, grams: 4.2, needsOrientation: false, torqueNm: [1.1, 1.6], mono: true,
     unitCostUsd: 0.021, moq: 500000, leadTimeWeeks: 5, toolingUsd: 70000, owned: true,
   },
   {
-    id: 'c-flip-28', kind: 'closure', name: 'Flip-top 28 mm', type: 'flip-top', scope: 'global', markets: ['global', 'IN', 'US', 'EU', 'SEA'],
+    id: 'c-flip-28', kind: 'closure', name: 'Flip-top 28 mm (Pantene style)', type: 'flip-top', scope: 'global', markets: ['global', 'IN', 'US', 'EU', 'SEA'],
     supplier: G, neckFinishes: ['28/410'], heightMm: 26, diameterMm: 34, grams: 5.0, needsOrientation: false, torqueNm: [1.4, 2.0], mono: true,
     unitCostUsd: 0.024, moq: 500000, leadTimeWeeks: 5, toolingUsd: 75000, owned: true,
   },
@@ -90,7 +136,7 @@ export const CLOSURES: ClosureSpec[] = [
     unitCostUsd: 0.011, moq: 1000000, leadTimeWeeks: 4, toolingUsd: 40000, owned: true,
   },
   {
-    id: 'c-pump-28', kind: 'closure', name: 'Lotion pump 28 mm, 2.0 cc', type: 'pump', scope: 'global', markets: ['global', 'US', 'EU', 'SEA', 'IN'],
+    id: 'c-pump-28', kind: 'closure', name: 'Spout pump 28 mm, 2.0 cc (H&S family size)', type: 'pump', style: 'spout-pump', scope: 'global', markets: ['global', 'US', 'EU', 'SEA', 'IN'],
     supplier: G, neckFinishes: ['28/410'], heightMm: 62, diameterMm: 34, grams: 13, outputCc: 2.0, needsOrientation: true, torqueNm: [1.6, 2.3], mono: false,
     unitCostUsd: 0.095, moq: 250000, leadTimeWeeks: 10, toolingUsd: 0, owned: true, notes: 'Steel spring: limits recyclability unless a mono-material pump is chosen.',
   },
@@ -123,6 +169,31 @@ export const CLOSURES: ClosureSpec[] = [
     id: 'c-in-flip-24', kind: 'closure', name: 'Flip-top 24 mm (India local)', type: 'flip-top', scope: 'local', markets: ['IN'],
     supplier: { name: 'Gujarat closure moulder', region: 'India' }, neckFinishes: ['24/410'], heightMm: 23, diameterMm: 30, grams: 3.9,
     needsOrientation: false, torqueNm: [1.1, 1.6], mono: true, unitCostUsd: 0.014, moq: 1000000, leadTimeWeeks: 3, toolingUsd: 14000, owned: true,
+  },
+  {
+    id: 'c-hs-dome-24', kind: 'closure', name: 'H&S dome flip-top 24 mm', type: 'flip-top', style: 'dome-flip', scope: 'global', markets: ['global', 'IN', 'US', 'EU', 'SEA'],
+    supplier: G, neckFinishes: ['24/410'], heightMm: 34, diameterMm: 34, grams: 5.2, needsOrientation: false, torqueNm: [1.1, 1.6], mono: true,
+    unitCostUsd: 0.024, moq: 500000, leadTimeWeeks: 5, toolingUsd: 80000, owned: true, notes: 'Tall domed lid that continues the swan curve.',
+  },
+  {
+    id: 'c-hs-dome-28', kind: 'closure', name: 'H&S dome flip-top 28 mm', type: 'flip-top', style: 'dome-flip', scope: 'global', markets: ['global', 'IN', 'US', 'EU', 'SEA'],
+    supplier: G, neckFinishes: ['28/410'], heightMm: 38, diameterMm: 36, grams: 6.1, needsOrientation: false, torqueNm: [1.4, 2.0], mono: true,
+    unitCostUsd: 0.027, moq: 500000, leadTimeWeeks: 5, toolingUsd: 85000, owned: true,
+  },
+  {
+    id: 'c-disc-pump-28', kind: 'closure', name: 'Disc-head pump 28 mm (Pantene gold)', type: 'pump', style: 'disc-pump', scope: 'global', markets: ['global', 'IN', 'US', 'EU', 'SEA'],
+    supplier: G, neckFinishes: ['28/410'], heightMm: 66, diameterMm: 46, grams: 15, outputCc: 2.0, needsOrientation: true, torqueNm: [1.6, 2.3], mono: false,
+    unitCostUsd: 0.11, moq: 250000, leadTimeWeeks: 10, toolingUsd: 0, owned: true, notes: 'Wide disc actuator with a short nozzle.',
+  },
+  {
+    id: 'c-disc-pump-24', kind: 'closure', name: 'Disc-head pump 24 mm (stock)', type: 'pump', style: 'disc-pump', scope: 'global', markets: ['global', 'IN', 'US', 'EU', 'SEA'],
+    supplier: { name: 'Incumbent pump supplier', region: 'Global' }, neckFinishes: ['24/410'], heightMm: 58, diameterMm: 42, grams: 13, outputCc: 1.5, needsOrientation: true, torqueNm: [1.2, 1.8], mono: false,
+    unitCostUsd: 0.1, moq: 100000, leadTimeWeeks: 8, toolingUsd: 0, owned: false, notes: 'Supplier stock; fits the off-menu stock bottles.',
+  },
+  {
+    id: 'c-spout-pump-24', kind: 'closure', name: 'Lock-down spout pump 24 mm (stock)', type: 'pump', style: 'spout-pump', scope: 'global', markets: ['global', 'IN', 'US', 'EU', 'SEA'],
+    supplier: { name: 'Incumbent pump supplier', region: 'Global' }, neckFinishes: ['24/410'], heightMm: 54, diameterMm: 32, grams: 12, outputCc: 2.0, needsOrientation: true, torqueNm: [1.2, 1.8], mono: false,
+    unitCostUsd: 0.085, moq: 100000, leadTimeWeeks: 8, toolingUsd: 0, owned: false, notes: 'Supplier stock; fits the off-menu stock bottles.',
   },
 ];
 
