@@ -4,6 +4,7 @@ import { useStore } from './store';
 import { Icon, Seg } from './ui/kit';
 import type { MarketId } from './domain/types';
 
+const Home = lazy(() => import('./pages/Home'));
 const Library = lazy(() => import('./pages/Library'));
 const Playroom = lazy(() => import('./pages/Playroom'));
 const Coach = lazy(() => import('./pages/Coach'));
@@ -15,6 +16,7 @@ const Settings = lazy(() => import('./pages/Settings'));
 const ThumbRenderer = lazy(() => import('./three/ThumbRenderer').then((m) => ({ default: m.ThumbRenderer })));
 
 const NAV: { group: string; items: { id: string; label: string; icon: keyof typeof Icon }[] }[] = [
+  { group: 'Start', items: [{ id: 'home', label: 'Introduction', icon: 'home' }] },
   { group: 'Design', items: [
     { id: 'library', label: 'Component library', icon: 'library' },
     { id: 'playroom', label: 'Playroom', icon: 'playroom' },
@@ -26,11 +28,11 @@ const NAV: { group: string; items: { id: string; label: string; icon: keyof type
   { group: 'Decide', items: [{ id: 'gates', label: 'Stage gates', icon: 'gates' }] },
 ];
 
-const PAGES: Record<string, React.ComponentType> = { library: Library, playroom: Playroom, coach: Coach, menus: Menus, shelf: Shelf, production: Production, gates: Gates, settings: Settings };
+const PAGES: Record<string, React.ComponentType> = { home: Home, library: Library, playroom: Playroom, coach: Coach, menus: Menus, shelf: Shelf, production: Production, gates: Gates, settings: Settings };
 
 export function App() {
   const [route] = useHashRoute();
-  const Page = PAGES[route] ?? Playroom;
+  const Page = PAGES[route] ?? Home;
   const designs = useStore((s) => s.designs);
   const activeId = useStore((s) => s.activeId);
   const setActive = useStore((s) => s.setActive);
@@ -43,7 +45,7 @@ export function App() {
   return (
     <div className="shell">
       <nav className="rail" aria-label="Modules">
-        <a className="brandmark" href="#/playroom">
+        <a className="brandmark" href="#/home">
           <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden><rect x="10" y="3" width="12" height="6" rx="2" fill="#fff" /><rect x="7" y="9" width="18" height="21" rx="6" fill="#3d7be0" /></svg>
           <span><b>Pack Playroom</b><small>P&amp;G Hair Care</small></span>
         </a>

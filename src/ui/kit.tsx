@@ -115,6 +115,7 @@ export function download(name: string, text: string, type = 'text/plain') {
 }
 
 export const Icon = {
+  home: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z" /></svg>,
   library: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><rect x="3" y="4" width="5" height="16" rx="1.5" /><rect x="10" y="4" width="5" height="16" rx="1.5" /><path d="M17.5 5.5l3 14" /></svg>,
   playroom: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><rect x="9" y="2.5" width="6" height="4" rx="1" /><path d="M8 6.5h8l1.5 3V20a1.5 1.5 0 0 1-1.5 1.5H8A1.5 1.5 0 0 1 6.5 20V9.5z" /><path d="M6.5 12h11" /></svg>,
   coach: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M12 3l2.2 5.3L20 9l-4.4 3.8L17 18.5 12 15.6 7 18.5l1.4-5.7L4 9l5.8-.7z" /></svg>,

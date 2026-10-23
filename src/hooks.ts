@@ -4,7 +4,7 @@ import type { PackDesign } from './domain/types';
 import { useCatalog } from './store';
 
 export function useHashRoute(): [string, (r: string) => void] {
-  const read = () => (window.location.hash.replace(/^#\/?/, '') || 'playroom').split('?')[0];
+  const read = () => (window.location.hash.replace(/^#\/?/, '') || 'home').split('?')[0];
   const [route, setRoute] = useState(read);
   useEffect(() => {
     const on = () => setRoute(read());
